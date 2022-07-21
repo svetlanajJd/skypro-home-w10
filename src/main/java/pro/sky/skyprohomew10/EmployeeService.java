@@ -1,18 +1,15 @@
 package pro.sky.skyprohomew10;
-
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-
-import java.net.BindException;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 @Service
 public class EmployeeService {
     private final Map<String, Employee> contacts = new HashMap<>();
 
     public Employee addEmployee(String firstName, String lastName, int department, float salary) {
-        if (!firstName.isBlank() && !lastName.isBlank()) {
+        if (!firstName.isBlank() && !lastName.isBlank() && StringUtils.isAlpha(firstName) && StringUtils.isAlpha(lastName)) {
             Employee employee = new Employee(StringUtils.capitalize(firstName), StringUtils.capitalize(lastName), department, salary);
             String key = getKey(firstName, lastName, department, salary);
             if (contacts.containsKey(employee)) {
