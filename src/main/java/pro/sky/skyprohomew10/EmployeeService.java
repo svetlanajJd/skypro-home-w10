@@ -11,8 +11,8 @@ public class EmployeeService {
     public Employee addEmployee(String firstName, String lastName, int department, float salary) {
         if (!firstName.isBlank() && !lastName.isBlank() && StringUtils.isAlpha(firstName) && StringUtils.isAlpha(lastName)) {
             Employee employee = new Employee(StringUtils.capitalize(firstName), StringUtils.capitalize(lastName), department, salary);
-            String key = getKey(firstName, lastName, department, salary);
-            if (contacts.containsKey(employee)) {
+                      String key = getKey(firstName, lastName, department, salary);
+            if (contacts.containsKey(getKey(employee.getFirstName(),employee.getLastName(),employee.getDepartment(),employee.getSalary()))) {
                 throw new EmployeeAlreadyAddedException();
             }
             contacts.put(key, employee);
@@ -23,7 +23,7 @@ public class EmployeeService {
 
     public Employee findEmployee(String firstName, String lastName, int department, float salary) {
         Employee employee = new Employee(firstName, lastName, department, salary);
-        if (contacts.containsKey(employee)) {
+        if (contacts.containsKey(getKey(employee.getFirstName(),employee.getLastName(),employee.getDepartment(),employee.getSalary()))) {
             return employee;
         }
         throw new EmployeeNotFoundException();
@@ -31,7 +31,7 @@ public class EmployeeService {
 
     public Employee removeEmployee(String firstName, String lastName, int department, float salary) {
         Employee employee = new Employee(firstName, lastName, department, salary);
-        if (contacts.containsKey(employee)) {
+        if (contacts.containsKey(getKey(employee.getFirstName(),employee.getLastName(),employee.getDepartment(),employee.getSalary()))) {
             contacts.remove(employee);
             return employee;
         }

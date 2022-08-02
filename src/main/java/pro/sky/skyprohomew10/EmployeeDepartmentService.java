@@ -22,21 +22,23 @@ public class EmployeeDepartmentService {
         return listContactsDepartment;
     }
 
-    public Optional<Employee> maxSalary(int department) {
+    public int maxSalary(int department) {
         List<Employee> listContactsDepartment = new ArrayList<>(employeeService.printTotal().values());
         Optional<Employee> streamContactsDepartment = listContactsDepartment.stream()
                 .sorted(Comparator.comparing(Employee::getDepartment))
                 .filter(d -> d.getDepartment() == department)
                 .max(Comparator.comparingInt(employee -> (int) employee.getSalary()));
-        return streamContactsDepartment;
+        int salaryMax= Integer.parseInt(String.valueOf(streamContactsDepartment));
+        return salaryMax;
     }
 
-    public Optional<Employee> minSalary(int department) {
+    public int minSalary(int department) {
         List<Employee> listContactsDepartment = new ArrayList<>(employeeService.printTotal().values());
-        Optional<Employee> streamContactsDepartment = listContactsDepartment.stream()
+         Optional<Employee>streamContactsDepartment = listContactsDepartment.stream()
                 .sorted(Comparator.comparing(Employee::getDepartment))
                 .filter(d -> d.getDepartment() == department)
                 .min(Comparator.comparingInt(employee -> (int) employee.getSalary()));
-        return streamContactsDepartment;
+        int salaryMin= Integer.parseInt(String.valueOf(streamContactsDepartment));
+               return salaryMin;
     }
 }
