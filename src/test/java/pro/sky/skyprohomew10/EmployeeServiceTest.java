@@ -22,9 +22,9 @@ public class EmployeeServiceTest {
 
     @Test
     public void getAddEmployee() {
-        Employee expected = out.addEmployee("Petr", "Petrov", 2, 54211);
-        Employee actual = new Employee("Petr", "Petrov", 2, 54211);
-        assertEquals(expected, actual);
+        Employee actual = out.addEmployee("Petr", "Petrov", 2, 54211);
+        Employee expected = new Employee("Petr", "Petrov", 2, 54211);
+        assertEquals(actual, expected);
     }
 
     @Test
@@ -34,17 +34,17 @@ public class EmployeeServiceTest {
 
     @Test
     public void getAllEmployee() {
-        Map<String, Employee> expected = out.printTotal();
-        Map<String, Employee> actual = new HashMap<>();
-        actual.put(employee.getFirstName() + " " + employee.getLastName() + " " + employee.getDepartment() + " " + employee.getSalary(), employee);
-        assertEquals(expected, actual);
+        Map<String, Employee> actual = out.printTotal();
+        Map<String, Employee> expected = new HashMap<>();
+        expected.put(employee.getFirstName() + " " + employee.getLastName() + " " + employee.getDepartment() + " " + employee.getSalary(), employee);
+        assertEquals(actual,expected);
     }
 
     @Test
     public void getFindEmployee() {
-        Employee expected = out.findEmployee("Ivan", "Ivanov", 2, 54211);
-        Employee actual = employee;
-        assertEquals(expected, actual);
+        Employee actual = out.findEmployee("Ivan", "Ivanov", 2, 54211);
+        Employee expected = employee;
+        assertEquals(actual, expected);
     }
 
     @Test
@@ -54,9 +54,9 @@ public class EmployeeServiceTest {
 
     @Test
     public void getRemoveEmployee() {
-        Employee expected = out.removeEmployee("Ivan", "Ivanov", 2, 54211);
-        Employee actual = employee;
-        assertEquals(expected, actual);
+        Employee actual = out.removeEmployee("Ivan", "Ivanov", 2, 54211);
+        Employee expected = employee;
+        assertEquals(actual, expected) ;
     }
 
     @Test

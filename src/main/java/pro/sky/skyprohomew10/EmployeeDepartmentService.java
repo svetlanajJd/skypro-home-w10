@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.max;
+import static java.util.stream.Collectors.groupingBy;
 
 @Service
 public class EmployeeDepartmentService {
@@ -15,30 +16,38 @@ public class EmployeeDepartmentService {
         this.employeeService = employeeService;
     }
 
-    public List<Employee> all() {
+    public List<Employee> allEmployeeDepartment(Integer department) {
         List<Employee> listContactsDepartment = new ArrayList<>(employeeService.printTotal().values());
-        listContactsDepartment.stream()
-                .collect(Collectors.groupingBy(Employee::getDepartment));
-        return listContactsDepartment;
+        return listContactsDepartment.stream()
+                .filter(e -> e.getDepartment() == department).collect(Collectors.toList());
     }
 
-    public int maxSalary(int department) {
+    public Map<Integer, Employee> allEmployeeDepartmentMap() {
         List<Employee> listContactsDepartment = new ArrayList<>(employeeService.printTotal().values());
-        Optional<Employee> streamContactsDepartment = listContactsDepartment.stream()
-                .sorted(Comparator.comparing(Employee::getDepartment))
-                .filter(d -> d.getDepartment() == department)
-                .max(Comparator.comparingInt(employee -> (int) employee.getSalary()));
-        int salaryMax= Integer.parseInt(String.valueOf(streamContactsDepartment));
-        return salaryMax;
+        return listContactsDepartment.stream()
+                .collect(Collectors.toMap(e -> e.getDepartment(), e -> e));
     }
 
-    public int minSalary(int department) {
+    public Employee maxSalary(int department) {
         List<Employee> listContactsDepartment = new ArrayList<>(employeeService.printTotal().values());
-         Optional<Employee>streamContactsDepartment = listContactsDepartment.stream()
-                .sorted(Comparator.comparing(Employee::getDepartment))
+        return listContactsDepartment.stream()
                 .filter(d -> d.getDepartment() == department)
-                .min(Comparator.comparingInt(employee -> (int) employee.getSalary()));
-        int salaryMin= Integer.parseInt(String.valueOf(streamContactsDepartment));
-               return salaryMin;
+                .max(Comparator.comparing(employee -> employee.getSalary())).orElseThrow(EmployeeNotFoundException::new);
+
+    }
+
+    public Employee minSalary(int department) {
+        List<Employee> listContactsDepartment = new ArrayList<>(employeeService.printTotal().values());
+        return listContactsDepartment.stream()
+                .filter(d -> d.getDepartment() == department)
+                .min(Comparator.comparing(employee -> employee.getSalary())).orElseThrow(EmployeeNotFoundException::new);
+
+//        List<Employee> listContactsDepartment = new ArrayList<>(employeeService.printTotal().values());
+//         Optional<Employee>streamContactsDepartment = listContactsDepartment.stream()
+//                .sorted(Comparator.comparing(Employee::getDepartment))
+//                .filter(d -> d.getDepartment() == department)
+//                .min(Comparator.comparingInt(employee -> (int) employee.getSalary()));
+//        int salaryMin= Integer.parseInt(String.valueOf(streamContactsDepartment));
+//               return salaryMin;
     }
 }

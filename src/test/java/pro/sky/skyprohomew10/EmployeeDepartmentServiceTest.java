@@ -10,8 +10,9 @@ import org.mockito.stubbing.OngoingStubbing;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,24 +27,38 @@ public class EmployeeDepartmentServiceTest {
 
     @Test
     public void getAllDepartment() {
-        assertNotNull(employeeService);
-        Map<String, Employee> actual = new HashMap<>();
-        actual.put(employee.getFirstName() + " " + employee.getLastName() + " " + employee.getDepartment() + " " + employee.getSalary(), employee);
-        when(employeeService.printTotal()).thenReturn(actual);
-        assertEquals(actual, employeeService.printTotal());
+        Map<String, Employee> expected = new HashMap<>();
+        expected.put(employee.getFirstName() + " " + employee.getLastName() + " " + employee.getDepartment() + " " + employee.getSalary(), employee);
+        when(employeeService.printTotal()).thenReturn(expected);
+        assertEquals(expected, employeeService.printTotal());
     }
 
     @Test
     public void minSalaryDepartment() {
+        Map<String, Employee> expected = new HashMap<>();
         employeeService.addEmployee(employee.getFirstName(), employee.getLastName(), employee.getDepartment(), employee.getSalary());
-        when(out.minSalary(2)).thenReturn((int) employee.getSalary());
-        assertEquals((int) employee.getSalary(), out.minSalary(2));
+        expected.put(employee.getFirstName() + " " + employee.getLastName() + " " + employee.getDepartment() + " " + employee.getSalary(), employee);
+        when(employeeService.printTotal()).thenReturn(expected);
+        assertEquals(employee, out.minSalary(2));
     }
 
     @Test
     public void maxSalaryDepartment() {
+        Map<String, Employee> expected = new HashMap<>();
         employeeService.addEmployee(employee.getFirstName(), employee.getLastName(), employee.getDepartment(), employee.getSalary());
-        when(out.maxSalary(2)).thenReturn((int) employee.getSalary());
-        assertEquals((int) employee.getSalary(), out.maxSalary(2));
+        expected.put(employee.getFirstName() + " " + employee.getLastName() + " " + employee.getDepartment() + " " + employee.getSalary(), employee);
+        when(employeeService.printTotal()).thenReturn(expected);
+        assertEquals(employee, out.maxSalary(2));
+    }
+
+    @Test
+    public void SalaryDepartmentThrow() {
+        Map<String, Employee> expected = new HashMap<>();
+        employeeService.addEmployee(employee.getFirstName(), employee.getLastName(), employee.getDepartment(), employee.getSalary());
+        expected.put(employee.getFirstName() + " " + employee.getLastName() + " " + employee.getDepartment() + " " + employee.getSalary(), employee);
+        when(out.minSalary(anyInt())).thenThrow(EmployeeNotFoundException.class);
+        assertThrows(EmployeeNotFoundException.class,()-> out.maxSalary(anyInt()));
+        when(out.minSalary(anyInt())).thenThrow(EmployeeNotFoundException.class);
+        assertThrows(EmployeeNotFoundException.class,()-> out.minSalary(anyInt()));
     }
 }
